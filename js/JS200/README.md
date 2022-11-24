@@ -32,4 +32,4 @@ It xors the input ```1337``` (byte1 ^ 1, byte2 ^ 3, etc...).
 
 Since we have the key and the cipher we can xor them together to get the plain text.
 
-flag: ```JCVD-approves-this-challenge```
+flag: ```BFS{JCVD-approves-this-challenge}```
