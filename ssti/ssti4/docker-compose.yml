@@ -1,0 +1,19 @@
+version: "3.3"
+
+# FIXME: Don't forget to place this file inside .dockerignore ! we don't want anyone looking at this
+
+services:
+  ssti4:
+    build: "./Challenges/SSTI/ssti4"
+    restart: always
+    networks:
+      ssti4:
+
+  # TODO: This is old don't forget to stop the server in the next version !
+  # toto8042:
+  #   build: "./Challenges/SSTI/ssti4/toto8042"
+  #   restart: always
+  #   port:
+  #     - ":" WARNING: The port was still open, asked Sysadmin to remove it last month....
+  #   networks:
+  #     ssti4:'
