@@ -14,6 +14,11 @@ The decoded xml looks like this:
 </document>
 ```
 
+It returns a message like this:
+```
+Thanks for your message: 'abc'
+```
+
 In the source of the page we can see:
 ```html
 <!-- // include_once('flag.php'); -->
