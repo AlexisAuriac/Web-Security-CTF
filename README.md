@@ -1,8 +1,6 @@
-# Web Security CTF
+# Web Security
 
-CTF made for Epitech.
-
-Students: Alexis AURIAC, Victor THOMAS
+CTF made for Epitech by Alexis AURIAC, Victor THOMAS
 
 - [auth50](#auth50)
 - [auth100](#auth100)
@@ -228,7 +226,7 @@ PD9waHAKICAvLyBDb25ncmF0eiAhIEZMQUcgSVMgWk9CezN2M25fcHIwdF9jNG43X3N0MHBfbTN9Cj8+
 
 flag: ```ZOB{3v3n_pr0t_c4n7_st0p_m3}```
 
-# OB100
+# OBF100
 
 ## What it is
 
