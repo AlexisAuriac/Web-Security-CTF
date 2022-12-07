@@ -17,6 +17,7 @@ chall=(
 	ssti/ssti2/README.md
 	ssti/ssti3/README.md
 	ssti/ssti4/README.md
+	xss/whatsup/README.md
 	xxe/xxe1/README.md
 	graphql/confessions/README.md
 )
