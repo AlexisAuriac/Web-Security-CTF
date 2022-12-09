@@ -45,7 +45,7 @@ $ socat TCP-LISTEN:9000,fork stdout
 
 Then to make it available online we can use [ngrok](https://ngrok.com/):
 ```bash
-$ ngrok http 900
+$ ngrok http 9000
 
 Session Status                online                                                                                
 Account                       User (Plan: Free)                                                                   

