@@ -11,6 +11,7 @@ chall=(
 	lfi/lfi2/README.md
 	lfi/lfi3/README.md
 	obfuscation/OBF100/README.md
+	sqli/potionseller/README.md
 	jwt/mythique1/README.md
 	jwt/mythique2/README.md
 	ssti/ssti1/README.md
