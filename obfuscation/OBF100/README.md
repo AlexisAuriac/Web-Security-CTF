@@ -6,17 +6,17 @@
 
 It asks for a password and checks it with obfiscated code.
 
-At around line 9 (around column 662) we can see:
+At around line 9, column 662 we can see:
 ```js
 if(password=== input)
 ```
 
-And at column 597:
+At column 597:
 ```js
 var password=_0xf7f7[0]
 ```
 
-At column 5:
+And at column 5:
 ```js
 var _0xf7f7=["\x67\x67\x65\x7A", ...
 ```

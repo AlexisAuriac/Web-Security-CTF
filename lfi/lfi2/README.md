@@ -8,6 +8,6 @@ It says ```Flag is in an obvious html place.```.
 
 ## Solution
 
-Tried a few urls before trying ```https://noprotection.secu-web.blackfoot.dev/flag.html```
+Tried a few urls before finding ```https://noprotection.secu-web.blackfoot.dev/flag.html```
 
 It shows ```Congratz, you can validate with ZOB{y34h_y0u_f0und_m3}```.

