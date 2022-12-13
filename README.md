@@ -31,14 +31,16 @@ CTF made for Epitech by Alexis AURIAC, Victor THOMAS
 
 A website that asks for a username and a password.
 
-"FUCK GUESSING CHALLENGES!!" is a the top of the page.
+"FUCK GUESSING CHALLENGES!!" is at the top of the page.
 
 ## Solution
 
 You just need to guess the credentials.
 
 username: ```admin```
+
 password: ```password```
+
 flag: ```BFS{We_f1n@llY_c@n_Tr0lL_t3am5_1Ts_0uR_TuRn}```
 
 # auth100
@@ -70,7 +72,7 @@ A website that asks for a flag.
 
 We can access the source of the page (see source.php).
 
-In the source we can see that it xors the input with key ```Th1s_1s_@_x0r_k3y_l0l!``` and encodes it to hex.
+In the source we can see that it xors the input with the key ```Th1s_1s_@_x0r_k3y_l0l!``` and encodes it to hex.
 
 It compares the result to ```3c09431700451c00232d19531900026c1e2a09431f7e38075d527e1052```.
 
@@ -78,9 +80,10 @@ It compares the result to ```3c09431700451c00232d19531900026c1e2a09431f7e38075d5
 
 (see solve.py)
 
-Decode it from hex and xor it with key.
+Decode it from hex and xor it with the key.
 
 website flag: ```hard_to_crack_i_guess_lol!!!!```
+
 challenge flag: ```BFS{1_L0v3_t0_x0r_tH1ng5_l1k3_@_p0nY!}```
 
 # b64js
