@@ -4,7 +4,7 @@
 
 It is a website that asks for a password.
 
-When the password it goes through this line:
+The password goes through this:
 ```js
 window.btoa(unescape(encodeURIComponent(input)))
 ```
@@ -17,9 +17,7 @@ It then compares the result to ```RXZlckhlYXJkT2ZCYXNlNjQ/```.
 
 ## Solution
 
-Decode ```RXZlckhlYXJkT2ZCYXNlNjQ/``` from base64.
-
-Example:
+Decode ```RXZlckhlYXJkT2ZCYXNlNjQ/``` from base64:
 ```bash
 $ echo "RXZlckhlYXJkT2ZCYXNlNjQ/" | base64 -d
 EverHeardOfBase64?

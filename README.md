@@ -92,7 +92,7 @@ challenge flag: ```BFS{1_L0v3_t0_x0r_tH1ng5_l1k3_@_p0nY!}```
 
 It is a website that asks for a password.
 
-When the password it goes through this line:
+The password goes through this:
 ```js
 window.btoa(unescape(encodeURIComponent(input)))
 ```
@@ -105,9 +105,7 @@ It then compares the result to ```RXZlckhlYXJkT2ZCYXNlNjQ/```.
 
 ## Solution
 
-Decode ```RXZlckhlYXJkT2ZCYXNlNjQ/``` from base64.
-
-Example:
+Decode ```RXZlckhlYXJkT2ZCYXNlNjQ/``` from base64:
 ```bash
 $ echo "RXZlckhlYXJkT2ZCYXNlNjQ/" | base64 -d
 EverHeardOfBase64?
@@ -118,7 +116,7 @@ flag: ```BFS{EverHeardOfBase64?}```
 
 ## What it is
 
-It asks for an input, the input goes through this function:
+It asks for an input, it goes through this function:
 ```js
 function validate() {
 	var flag = "K@UC,bswslubr.wohp.dibokdmdb";
@@ -140,11 +138,11 @@ function validate() {
 }
 ```
 
-It xors the input ```1337``` (byte1 ^ 1, byte2 ^ 3, etc...).
+It xors the input with ```1337``` (byte1 ^ 1, byte2 ^ 3, etc...).
 
 ## Solution
 
-(see solve.js)
+(see solve.py)
 
 Since we have the key and the cipher we can xor them together to get the plain text.
 
