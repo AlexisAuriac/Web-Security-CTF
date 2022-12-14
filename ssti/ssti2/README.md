@@ -2,18 +2,11 @@
 
 ## What it is
 
-Same as ssti1 but flag is not in app.py
+Same as ssti1 but the flag is not in app.py
 
 ## Solution
 
-```_io._IOBase``` is not exactly in the same place:
-```py
-{{'abc'.__class__.__base__.__subclasses__()[106].__subclasses__()[0].__subclasses__()[0]('app.py').read()}}
-```
-
-https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/#rce-bypassing-as-much-as-i-possibly-can
-
-Using the request object we can get access to the ```os``` module and do some IO.
+Using the request object we can get access to the ```os``` module and use ```popen()``` to run bash commands ([source](https://www.onsecurity.io/blog/server-side-template-injection-with-jinja2/#rce-bypassing-as-much-as-i-possibly-can)).
 
 List files in the current directory:
 ```py

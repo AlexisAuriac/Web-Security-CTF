@@ -28,10 +28,9 @@ In the source of the page we can see:
 
 (see solve.js)
 
-https://portswigger.net/web-security/xxe
-https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#read-file
+[xxe overview](https://portswigger.net/web-security/xxe)
 
-We can use some xml features to retrieve external entities from the server.
+We can use some xml features to retrieve external entities from the server ([source](https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity#read-file)).
 
 For example:
 ```xml
@@ -42,7 +41,7 @@ For example:
 </document>
 ```
 
-```file://``` will not work for ```flag.php``` because it will be interpreted by php, we can use ```php://filter/convert.base64-encode/resource=``` instead (see ssti1).
+```file://``` will not work for ```flag.php``` because it will be interpreted by php, we can use ```php://filter/convert.base64-encode/resource=``` instead (see [lfi1](#lfi1)).
 
 The final payload looks like this:
 ```xml

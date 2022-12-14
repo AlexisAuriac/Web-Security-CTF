@@ -2,7 +2,7 @@
 
 ## What it is
 
-Same as ssti2 but flag is not in app.py or in a file.
+Same as ssti2 but the flag is not in app.py or in a file.
 
 Files in the directory:
 ```

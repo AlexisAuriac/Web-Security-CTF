@@ -8,7 +8,7 @@ The method used in whatsup doesn't work, the html is not interpreted.
 
 ## Solution
 
-The way the image link is inserted in the element looks probably something like this:
+The way the image link is inserted in the element probably looks something like this:
 ```js
 '<img src="' + input + '">'
 ```

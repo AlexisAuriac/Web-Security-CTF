@@ -8,9 +8,7 @@ It takes a name in an input field and displays it.
 
 ## Solution
 
-https://kleiber.me/blog/2021/10/31/python-flask-jinja2-ssti-example/
-
-From a string literal you can get the base class and open a file.
+From a string literal you can get the base class and open a file ([source](https://kleiber.me/blog/2021/10/31/python-flask-jinja2-ssti-example/)).
 
 To get the content of ```app.py```:
 ```py

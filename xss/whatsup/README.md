@@ -16,18 +16,18 @@ Some of the words we found:
 - cul
 - hell
 
-The max input size is 255 char (a bit less actually).
+The max input size is 255 char.
 
 ## Solution
 
-We can put code in the ```onpageshow``` event of the body ([source](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onpageshow).
+We can put code in the ```onpageshow``` event of the body ([source](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet#onpageshow)).
 
 example:
 ```html
 <body onpageshow="alert('Hey')">
 ```
 
-To use function/objects like ```console``` that contain censored words we can use a simple trick:
+To use function/objects like ```console``` that contain censored words we can use this simple trick:
 ```html
 <body onpageshow="globalThis['co'+'nsole'].log('Hey')">
 ```

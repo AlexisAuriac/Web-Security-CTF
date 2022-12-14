@@ -4,7 +4,7 @@
 
 (see index.html)
 
-It asks for a password and checks it with obfiscated code.
+It asks for a password and checks it with obfuscated code.
 
 At around line 9, column 662 we can see:
 ```js
