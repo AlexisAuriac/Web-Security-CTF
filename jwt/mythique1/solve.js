@@ -1,3 +1,5 @@
+#!/bin/env node
+
 import axios from 'axios'
 import setCookie from 'set-cookie-parser'
 

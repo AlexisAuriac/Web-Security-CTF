@@ -2,7 +2,7 @@
 
 import base64
 
-import phpserialize
+import phpserialize # https://pypi.org/project/phpserialize/
 
 improve_meta = base64.b64decode("UAMQV1oLEgBLUAsHE11SXwAPSlNVVA5CUwELU11GRlgBWFIH")
 x1 = b"dfvaijpefajewpfja9gjdgjoegijdpsodjfe"
@@ -19,7 +19,6 @@ def strxor(s, key):
 
 def screen_submission(sub_key, sub_meta):
 	sub = strxor(sub_key, strxor(improve_meta, x1))
-
 	return strxor(sub, sub_meta)
 
 def remove_letter(data, key):

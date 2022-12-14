@@ -4,16 +4,15 @@
 
 A website with a button that requires an admin jwt cookie to give the flag.
 
-We know the jwt cookie uses RS256 (jwt algos: https://stackoverflow.com/a/39239395/12864941).
+We know the jwt cookie uses RS256 ([source](https://stackoverflow.com/a/39239395/12864941)).
 
 We can download the public key (see ```serverkey.pub```).
 
 ## Solution
 
-(https://debricked.com/blog/json-web-tokens/)
 (see solve.js)
 
-We can use an algorithm confusion attack.
+We can use an algorithm confusion attack ([source](https://debricked.com/blog/json-web-tokens/)).
 
 We create an admin cookie with HS256, using the server's public key as a secret key.
 

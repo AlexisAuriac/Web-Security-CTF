@@ -4,7 +4,7 @@
 
 It's a website that requires an admin cookie to get the flag.
 
-We can see in the code of the page that it splits the cookie in function of '.'. It then decodes the second part of the cookie for base64 and parses as a JSON object.
+We can see in the code of the page (see index.js) that it splits the cookie at every ```.```, it then decodes the second part of the cookie for base64 and parses it as a JSON object.
 
 The decoded cookie looks like this:
 ```json
@@ -22,7 +22,7 @@ The decoded cookie looks like this:
 
 (see solve.js)
 
-We define a target admin cookie, for example:
+Create an admin cookie:
 ```json
 {
 	"exp": 1669289642,
@@ -34,6 +34,8 @@ We define a target admin cookie, for example:
 }
 ```
 
-We encode it to base64 and insert it into the second part of the cookie.
+Encode it to base64 and insert it into the second part of the original cookie.
 
 Note: the name used matters in this case, names with non-ascii characters need more steps to work, but since we can put in any name it doesn't really matters.
+
+flag: ```BFS{JwT_m0r3_l1k3_jwP33_xd}```

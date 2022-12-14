@@ -3,7 +3,7 @@
 ## What it is
 
 Almost the same as potionseller except:
-- the strongest potion is available without injection
+- The strongest potion is available without injection
 - A link to the "Admin Space" appeared on the site, connecting requires a login and a password
 
 ## Solution
@@ -13,8 +13,10 @@ Almost the same as potionseller except:
 We need to get credentials for the admin.
 
 The server has new measures in place to catch injection attempts:
-```json
+```
 https://potionseller2.secu-web.blackfoot.dev/potions/1 or 1=1
+```
+```json
 {
   "err": "That looks like code! I don't like code, only potions!"
 }
@@ -79,6 +81,6 @@ Using a [hash cracking website](https://hashes.com/en/decrypt/hash) we can get t
 
 password: ```potions```
 
-We can now login to the Admin Space and get the flag
+We can now login to the Admin Space and get the flag.
 
 flag: ```BFS{Y4Y_f0R_5qLi!}```

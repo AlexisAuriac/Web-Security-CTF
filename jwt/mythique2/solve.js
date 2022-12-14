@@ -1,3 +1,5 @@
+#!/bin/env node
+
 import fs from 'fs/promises'
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
